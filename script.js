@@ -1,19 +1,28 @@
 let newColor;
+let myFactor = 0.1; // add 10% black
+let size = 16;
 let boxs = document.querySelectorAll(".c");
-boxs[1].style.backgroundColor = randomColor();
-boxs[3].style.backgroundColor = randomColor();
-boxs[5].style.backgroundColor = randomColor();
+let clearButton = document.getElementById("clear");
+let rangeElement = document.getElementById("myfactor");
+rangeElement.addEventListener("change" , function(){
+    myFactor = rangeElement.value;
+    console.log(myFactor)
+});
 boxs.forEach( (box) => {
     box.addEventListener("mouseover" , function(){
         if (box.hasAttribute("style")) {
-            newColor = changedColor(box , 0.8);
+            newColor = changedColor(box , myFactor);
         } else {
             newColor = randomColor();
         }
         giveColor(box , newColor);
     });
 });
-
+clearButton.addEventListener("click" , function(){
+    boxs.forEach( (box) => {
+        box.removeAttribute("style");
+    });
+})
 function randomColor() {
     function randomNumber() {
         return Math.floor(Math.random() * (255 + 1));
@@ -45,7 +54,7 @@ function changedColor(box , factor) {
         newBlue = 255;
     if (newBlue < 0) 
         newBlue = 0;
-    return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
-    console.log(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
 
+    console.log(`rgb(${newRed}, ${newGreen}, ${newBlue})`);
+    return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
 }
