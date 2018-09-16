@@ -3,19 +3,8 @@ let myFactor = 0.1; // add 10% black every mouseover
 let mySize = 16;
 let container = document.getElementById("container");
 
-createboxes(mySize);
-
-let boxes = document.querySelectorAll(".box");
-boxes.forEach( (box) => {
-    box.addEventListener("mouseover" , function(){
-        if (box.classList.contains("colored")) {
-            newColor = changedColor(box , myFactor);
-        } else {
-            newColor = randomColor();
-        }
-        giveColor(box , newColor);
-    });
-});
+createBoxes(mySize);
+boxesEventListener();
 
 let rangeElement = document.getElementById("myfactor");
 let rangePercentage = document.getElementById("rangePercentage");
@@ -27,10 +16,28 @@ rangeElement.addEventListener("change" , function(){
 
 let clearButton = document.getElementById("clear");
 clearButton.addEventListener("click" , function(){
-    boxes.forEach( (box) => {
-        box.removeAttribute("style");
-    });
+    let gotCorrectValue = false;
+    while(gotCorrectValue == false) {
+        let newSize = prompt("Enter a new size: (Between 1 to 64)");
+        console.log(newSize);
+        if(newSize === null) {
+            gotCorrectValue = true;
+            break;
+        } else {
+            newSize = parseInt(newSize , 10);
+            if (isNaN(newSize) || newSize > 64 || newSize < 1) {
+                alert("The number you entered is not valid. Try again!");
+            }
+            else {
+                gotCorrectValue = true;
+                createBoxes(newSize);
+                boxesEventListener();
+
+            }
+        }
+    }
 })
+
 
 function randomColor() {
     function randomNumber() {
@@ -64,18 +71,32 @@ function changedColor(box , factor) {
     return `rgb(${newRed}, ${newGreen}, ${newBlue})`;
 }
 
-function createboxes(num) {
+function createBoxes(num) {
     // first, delete old boxes
     while( container.firstChild ) {
         container.removeChild(container.firstChild);
     }
 
     let count = Math.pow(num , 2);
-    let boxSize = (600/num) - 2;
+    let boxSize = (600/num) - 1;
     for(let i = 1; i <= count; i++) {
         let boxElement = document.createElement("div");
         boxElement.className = `box box-${i}`;
         boxElement.style = `height: ${boxSize}px; width: ${boxSize}px;`;
         container.appendChild(boxElement);
     }
+}
+
+function boxesEventListener() {
+    let boxes = document.querySelectorAll(".box");
+    boxes.forEach( (box) => {
+        box.addEventListener("mouseover" , function(){
+            if (box.classList.contains("colored")) {
+                newColor = changedColor(box , myFactor);
+            } else {
+                newColor = randomColor();
+            }
+            giveColor(box , newColor);
+        });
+    });
 }
