@@ -1,16 +1,28 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title></title>
+        <title>Etch-A-Sketch</title>
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-
+        <div id="header">
+            <div class="title">Etch -A- Sketch</div>
+            
+        </div>
         <div id="container"></div>
+        
+        <div id="footer">
+            <div class="rangebox">
+                <div class="text">How much darker?</div>
+                <input type="range" min="0.01" max="0.99" value="0.1" step="0.005" class="slider" id="myfactor">
+                <div class="percent"> <span id="rangePercentage">10</span>%</div>
+            </div>
+            <div class="buttons">
+                <button class="sbtn" id="new">New</button>
+                <button class="sbtn" id="clear">Clear</button>
 
-        <input type="range" min="0.01" max="0.99" value="0.1" step="0.005" class="slider" id="myfactor">
-        <span id="rangePercentage">10</span>
-        <button id="clear">Clear</button>
+            </div>
+        </div>
 
         <script src="script.js"></script>
     </body>

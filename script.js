@@ -11,15 +11,19 @@ let rangePercentage = document.getElementById("rangePercentage");
 rangeElement.addEventListener("change" , function(){
     myFactor = rangeElement.value;
     rangePercentage.innerHTML = Math.round(myFactor * 100);
-    console.log(myFactor)
 });
 
 let clearButton = document.getElementById("clear");
 clearButton.addEventListener("click" , function(){
+    createBoxes(mySize);
+    boxesEventListener();
+})
+
+let newButton = document.getElementById("new");
+newButton.addEventListener("click" , function(){
     let gotCorrectValue = false;
     while(gotCorrectValue == false) {
         let newSize = prompt("Enter a new size: (Between 1 to 64)");
-        console.log(newSize);
         if(newSize === null) {
             gotCorrectValue = true;
             break;
@@ -32,12 +36,11 @@ clearButton.addEventListener("click" , function(){
                 gotCorrectValue = true;
                 createBoxes(newSize);
                 boxesEventListener();
-
+                mySize = newSize;
             }
         }
     }
 })
-
 
 function randomColor() {
     function randomNumber() {
@@ -45,10 +48,12 @@ function randomColor() {
     }
     return `rgb(${randomNumber()}, ${randomNumber()}, ${randomNumber()})`;
 }
+
 function giveColor(box , color) {
     box.style.backgroundColor = color;
     box.classList.add("colored");
 }
+
 function changedColor(box , factor) {
     let oldColor = box.style.backgroundColor;
     let regex = /rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)/;
@@ -76,9 +81,8 @@ function createBoxes(num) {
     while( container.firstChild ) {
         container.removeChild(container.firstChild);
     }
-
     let count = Math.pow(num , 2);
-    let boxSize = (600/num) - 1;
+    let boxSize = (500/num) - 1;
     for(let i = 1; i <= count; i++) {
         let boxElement = document.createElement("div");
         boxElement.className = `box box-${i}`;
